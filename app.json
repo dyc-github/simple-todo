@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "simple-todo2",
-    "slug": "simple-todo2",
+    "name": "simple-todo",
+    "slug": "simple-todo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
