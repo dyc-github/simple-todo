@@ -10,12 +10,28 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 export default function App() {
   const [dialogIsVisible, setDialogIsVisible] = useState(false);
   const [taskComponents, setTaskComponents] = useState([]);
-  const [taskData, setTaskData] = useState([]); //tasks will be formatted as such {id: taskID, taskText: taskText, isComplete: boolean}
+  const [taskData, setTaskData] = useState([]); //tasks will be formatted as such {id: taskID, text: taskText, isComplete: boolean}
+
+  useEffect(() => {
+    const newTaskComponents = taskData.map((taskDataEntry) => {
+      return (
+        <Task
+          key={taskDataEntry.id}
+          id={taskDataEntry.id}
+          taskText={taskDataEntry.text}
+          isComplete={taskDataEntry.isComplete}
+          deleteTask={deleteTask}
+          updateTaskIsComplete={updateTaskIsComplete}
+        />
+      );
+    });
+    setTaskComponents(newTaskComponents);
+  }, [taskData]);
 
   const createTask = (taskText) => {
     const newTaskDataEntry = {
       id: uuid.v4(),
-      taskText: taskText,
+      text: taskText,
       isComplete: false,
     };
     setTaskData([...taskData, newTaskDataEntry]);

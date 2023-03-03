@@ -2,23 +2,26 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { List, Checkbox, IconButton } from "react-native-paper";
 const Task = (props) => {
-  [isChecked, setIsChecked] = useState(false);
   const taskText = props.taskText;
+  const id = props.id;
+  const isComplete = props.isComplete;
+  const deleteTask = props.deleteTask;
+  const updateTaskIsComplete = props.updateTaskIsComplete;
   return (
     <List.Item
       style={styles.task}
-      title={"taskText"}
+      title={taskText}
       left={() => (
         <View style={styles.checkboxContainer}>
           <Checkbox.Android
-            status={isChecked ? 'checked' : 'unchecked'}
+            status={isComplete ? 'checked' : 'unchecked'}
             onPress={() => {
-              setIsChecked(!isChecked);
+              updateTaskIsComplete(id, !isComplete);
             }}
           />
         </View>
       )}
-      right={() => <IconButton icon="close" />}
+      right={() => <IconButton icon="close" onPress={()=>{deleteTask(id)}}/>}
     />
   );
 };
