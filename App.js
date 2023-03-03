@@ -3,14 +3,21 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, List } from "react-native-paper";
 import Task from "./components/Task";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
+import AddTaskDialog from "./components/AddTaskDialog";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
+  const [dialogIsVisible, setDialogIsVisible] = useState(false);
   const [taskComponents, setTaskComponents] = useState([]);
   const [taskData, setTaskData] = useState([]); //tasks will be formatted as such {id: taskID, taskText: taskText, isComplete: boolean}
 
   const createTask = (taskText) => {
-    const newTaskDataEntry = { id: uuid.v4(), taskText: taskText, isComplete: false };
+    const newTaskDataEntry = {
+      id: uuid.v4(),
+      taskText: taskText,
+      isComplete: false,
+    };
     setTaskData([...taskData, newTaskDataEntry]);
   };
   const deleteTask = (id) => {
@@ -29,19 +36,25 @@ export default function App() {
     setTaskData(newTaskData);
   };
 
-
   return (
-    <View style={styles.container}>
-      <List.Section>{taskComponents}</List.Section>
-      <Button
-        onPress={() => {
-          console.log("hello world");
-        }}
-      >
-        Add task
-      </Button>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        <List.Section>{taskComponents}</List.Section>
+        <Button
+          onPress={() => {
+            setDialogIsVisible(true);
+          }}
+        >
+          Add task
+        </Button>
+        <AddTaskDialog
+          visible={dialogIsVisible}
+          setVisible={setDialogIsVisible}
+          createTask={createTask}
+        />
+        <StatusBar style="auto" />
+      </View>
+    </SafeAreaProvider>
   );
 }
 
